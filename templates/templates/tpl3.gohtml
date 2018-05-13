@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>About</title>
+</head>
+<body>
+	{{range $index, $val := .Beings}}
+    <p>My name is {{.Name}} and I am a {{.Type}}.</p>
+    {{end}}
+    {{range .Favorites}}
+    <p>My favorite food is {{.FavoriteFood}} and my favorite person is {{.FavoritePerson}}.</p>
+    {{end}}
+</body>
+</html>

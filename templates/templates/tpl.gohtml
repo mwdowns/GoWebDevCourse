@@ -4,7 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Hello World!</title>
 </head>
+
 <body>
-    <h1>Hello</h1>
+	{{range $person := .}}
+    <h1>Hello {{$person}}!</h1>
+	{{end}}
 </body>
 </html>

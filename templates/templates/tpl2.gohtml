@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>About</title>
+</head>
+<body>
+	{{range $person := .}}
+    <h1>My name is {{$person.Name}}</h1>
+	<h1>I am a {{$person.Type}}</h1>
+	{{end}}
+</body>
+</html>
