@@ -34,7 +34,12 @@ func main() {
 		fmt.Println("Error: ", err)
 	}
 
-	err = tpl.Execute(os.Stdout, nil)
+	nf, err := os.Create("index.html")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	err = tpl.Execute(nf, nil)
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
