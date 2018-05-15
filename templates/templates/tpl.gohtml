@@ -7,7 +7,7 @@
 
 <body>
 	{{range $person := .Beings}}
-    <h1>Hello {{$person.Name}}!</h1>
+    <h1>Hello {{uc $person.Name}}!</h1>
 	{{end}}
 </body>
 </html>

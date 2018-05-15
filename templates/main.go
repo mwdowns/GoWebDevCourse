@@ -2,14 +2,41 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
+	"strings"
 	"text/template"
 )
+
+var fm = template.FuncMap{
+	"uc":   strings.ToUpper,
+	"dbl":  dbl,
+	"sq":   sq,
+	"sqrt": sqrt,
+}
 
 var tpl *template.Template
 
 func init() {
-	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+	tpl = template.Must(template.New("").Funcs(fm).ParseGlob("templates/*.gohtml"))
+}
+
+func firstThree(s string) string {
+	s = strings.TrimSpace(s)
+	s = s[:3]
+	return s
+}
+
+func dbl(n float64) float64 {
+	return n * 2
+}
+
+func sq(n float64) float64 {
+	return n * n
+}
+
+func sqrt(n float64) float64 {
+	return math.Sqrt(n)
 }
 
 type templates struct {
@@ -28,6 +55,7 @@ type favorites struct {
 }
 
 type items struct {
+	Number    float64
 	Beings    []being
 	Favorites []favorites
 }
@@ -63,6 +91,7 @@ func main() {
 		{pageName: "index.html", templateName: "tpl.gohtml"},
 		{pageName: "about.html", templateName: "tpl2.gohtml"},
 		{pageName: "about2.html", templateName: "tpl3.gohtml"},
+		{pageName: "math.html", templateName: "tpl4.gohtml"},
 	}
 	beings := []being{
 		{Name: "Jeri", Animal: "person"},
@@ -81,6 +110,7 @@ func main() {
 		{FavoriteFood: "Buscuit", FavoritePerson: "Matt"},
 	}
 	stuff := items{
+		Number:    5,
 		Beings:    beings,
 		Favorites: favorites,
 	}
