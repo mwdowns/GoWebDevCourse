@@ -5,11 +5,11 @@
 	<title>About</title>
 </head>
 <body>
-	{{range .Beings}}
-    <p>My name is {{.Name}} and I am a {{.Animal}}.</p>
+	{{range $i, $b := .Beings}}
+    <p>My name is {{$b.Name}} and I am a {{$b.Animal}}.</p>
+    {{if ge $i (len $.Favorites)}}<p>I have no favorite food and no favorite person.</p>
+    {{else}}<p>My favorite food is {{(index $.Favorites $i).FavoriteFood}} and my favorite person is {{(index $.Favorites $i).FavoritePerson }}.</p>
     {{end}}
-    {{range .Favorites}}
-    <p>My favorite food is {{.FavoriteFood}} and my favorite person is {{.FavoritePerson}}.</p>
     {{end}}
 </body>
 </html>

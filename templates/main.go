@@ -100,6 +100,7 @@ func main() {
 		{Name: "Stinkins", Animal: "cat"},
 		{Name: "Rovi", Animal: "dog"},
 		{Name: "Danny", Animal: "good boy"},
+		{Name: "Naname", Animal: "chicken"},
 	}
 	favorites := []favorites{
 		{FavoriteFood: "Vegan/NonDairy", FavoritePerson: "Doodins"},
