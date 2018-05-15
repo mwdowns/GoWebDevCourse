@@ -6,8 +6,8 @@
 </head>
 
 <body>
-	{{range $person := .}}
-    <h1>Hello {{$person}}!</h1>
+	{{range $person := .Beings}}
+    <h1>Hello {{$person.Name}}!</h1>
 	{{end}}
 </body>
 </html>

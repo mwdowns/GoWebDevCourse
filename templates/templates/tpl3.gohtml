@@ -5,8 +5,8 @@
 	<title>About</title>
 </head>
 <body>
-	{{range $index, $val := .Beings}}
-    <p>My name is {{.Name}} and I am a {{.Type}}.</p>
+	{{range .Beings}}
+    <p>My name is {{.Name}} and I am a {{.Animal}}.</p>
     {{end}}
     {{range .Favorites}}
     <p>My favorite food is {{.FavoriteFood}} and my favorite person is {{.FavoritePerson}}.</p>
