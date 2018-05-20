@@ -6,9 +6,10 @@
 </head>
 
 <body>
-    <h1>Hello {{.}}</h1>
-    <p>{{template "numbers" .}}</p>
-    <p>{{template "favorites"}}</p>
-
+    {{range .}}
+    <h1>Hello, my name is {{.Name}}</h1>
+    {{template "numbers" .}}
+    {{template "favorites" .}}
+    {{end}}
 </body>
 </html>

@@ -1,3 +1,10 @@
 {{define "favorites"}}
-These are my favorites.
+    <p>These are my favorite animals.<p>
+    {{range $animal := .FavoriteAnimals}}
+    <li>{{$animal.Name}} is a {{$animal.Type}}.</li>
+    {{end}}
+    <p>These are my favorite foods.</p>
+    {{range $food := .FavoriteFoods}}
+    <li>{{$food.Name}}</li>
+    {{end}}
 {{end}}
