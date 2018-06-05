@@ -9,6 +9,8 @@ import (
 type hotdog int
 
 func (h hotdog) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// this call here to ParseForm() makes the data from the form submit avaialbe
+	// and it is passed to the template below as r.Form
 	err := r.ParseForm()
 	if err != nil {
 		log.Fatalln(err)
