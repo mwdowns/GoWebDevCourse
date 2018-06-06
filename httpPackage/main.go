@@ -15,13 +15,21 @@ func (h hotdog) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	tpl.ExecuteTemplate(w, "index.gohtml", r.Form)
+	w.Header().Set("Matt-key", "yo, dis Matt")
+	switch r.URL.Path {
+	case "/dog":
+		tpl.ExecuteTemplate(w, "dog.gohtml", r.Form)
+	case "/cat":
+		tpl.ExecuteTemplate(w, "cat.gohtml", r.Form)
+	default:
+		tpl.ExecuteTemplate(w, "index.gohtml", r.Form)
+	}
 }
 
 var tpl *template.Template
 
 func init() {
-	tpl = template.Must(template.ParseFiles("index.gohtml"))
+	tpl = template.Must(template.New("").ParseGlob("*.gohtml"))
 }
 
 func main() {

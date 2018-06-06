@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Form!</title>
+</head>
+<body>
+<h1>BARK</h1>
+{{if .}}
+<main>
+    <p><strong>variable names</strong> (identifiers) and <em>values</em>:</p>
+    {{range $key, $value := .}}
+        <p><strong>{{$key}}</strong></p>
+        <ul>{{range $value}}
+            <li><em>{{.}}</em></li>
+            {{end}}
+        </ul>
+    {{end}}
+</main>
+{{end}}
+
+<form action="/dog" method="POST">
+    <input type="text" name="fname" placeholder="first name" autofocus autocomplet="off">
+    <input type="submit" name="submit-btn" value="onda button">
+</form>
+
+</body>
+</html>
