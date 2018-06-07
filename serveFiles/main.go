@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", sloth)
+	http.Handle("/", http.FileServer(http.Dir(".")))
+	http.HandleFunc("/sloth", sloth)
 	http.Handle("/resources/", http.StripPrefix("/resources", http.FileServer(http.Dir("./assets"))))
 	http.ListenAndServe(":8080", nil)
 }
