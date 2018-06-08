@@ -6,9 +6,10 @@ import (
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir(".")))
+	fs := http.StripPrefix("/resources", http.FileServer(http.Dir("./assets")))
+	http.HandleFunc("/", index)
 	http.HandleFunc("/sloth", sloth)
-	http.Handle("/resources/", http.StripPrefix("/resources", http.FileServer(http.Dir("./assets"))))
+	http.Handle("/resources/", fs)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -17,6 +18,10 @@ func sloth(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, `
 		<img src="/resources/felice.jpg">
 	`)
+}
+
+func index(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "index.html")
 }
 
 // func slothPic(w http.ResponseWriter, r *http.Request) {
