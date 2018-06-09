@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 var tpl *template.Template
@@ -38,16 +39,14 @@ func main() {
 
 func i(w http.ResponseWriter, r *http.Request) {
 	name := "Matt"
-	http.SetCookie(w, &http.Cookie{
-		Name:  "matt-cookie",
-		Value: "yo, cookie set!",
-	})
+	checkCookie(w, r)
 	err := tpl.ExecuteTemplate(w, "index_i.gohtml", name)
 	errorHandler(err)
 }
 
 func v(w http.ResponseWriter, r *http.Request) {
 	value := r.FormValue("q")
+	checkCookie(w, r)
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	io.WriteString(w, `
 		<a href="/">Home</a>
@@ -56,16 +55,13 @@ func v(w http.ResponseWriter, r *http.Request) {
 		<input type="submit">
 		</form><br>
 		`+value)
-	c, err := r.Cookie("matt-cookie")
-	errorHandler(err)
-	fmt.Printf("Cookie: %v", c)
 }
 
 func p(w http.ResponseWriter, r *http.Request) {
 	f := r.FormValue("first")
 	l := r.FormValue("last")
 	s := r.FormValue("subscribe") == "on"
-
+	checkCookie(w, r)
 	err := tpl.ExecuteTemplate(w, "index_p.gohtml", person{f, l, s})
 	errorHandler(err)
 }
@@ -85,7 +81,26 @@ func rf(w http.ResponseWriter, r *http.Request) {
 
 		s = string(bs)
 	}
-
+	checkCookie(w, r)
 	err := tpl.ExecuteTemplate(w, "index_rf.gohtml", s)
 	errorHandler(err)
+}
+
+func checkCookie(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("matt-cookie")
+	if err != nil {
+		http.SetCookie(w, &http.Cookie{
+			Name:  "matt-cookie",
+			Value: "0",
+		})
+		fmt.Println("yo")
+		return
+	}
+	oldVal, err := strconv.Atoi(c.Value)
+	newVal := oldVal + 1
+	fmt.Printf("NewVal: %v\n", newVal)
+	http.SetCookie(w, &http.Cookie{
+		Name:  "matt-cookie",
+		Value: strconv.Itoa(newVal),
+	})
 }
