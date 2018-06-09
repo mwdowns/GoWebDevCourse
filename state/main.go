@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+
+	"github.com/satori/go.uuid"
 )
 
 var tpl *template.Template
@@ -32,6 +34,7 @@ func main() {
 
 func i(w http.ResponseWriter, r *http.Request) {
 	name := "Matt"
+	setUUIDCookie(w, r)
 	checkCookie(w, r)
 	err := tpl.ExecuteTemplate(w, "index_i.gohtml", name)
 	errorHandler(err)
@@ -77,6 +80,19 @@ func rf(w http.ResponseWriter, r *http.Request) {
 	checkCookie(w, r)
 	err := tpl.ExecuteTemplate(w, "index_rf.gohtml", s)
 	errorHandler(err)
+}
+
+func setUUIDCookie(w http.ResponseWriter, r *http.Request) {
+	_, err := r.Cookie("uuid-cookie")
+	if err == http.ErrNoCookie {
+		id, _ := uuid.NewV4()
+		http.SetCookie(w, &http.Cookie{
+			Name:  "uuid-cookie",
+			Value: id.String(),
+		})
+		return
+	}
+	return
 }
 
 func checkCookie(w http.ResponseWriter, r *http.Request) {
