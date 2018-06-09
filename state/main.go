@@ -89,6 +89,8 @@ func setUUIDCookie(w http.ResponseWriter, r *http.Request) {
 		http.SetCookie(w, &http.Cookie{
 			Name:  "uuid-cookie",
 			Value: id.String(),
+			// Secure: true,
+			HttpOnly: true,
 		})
 		return
 	}
