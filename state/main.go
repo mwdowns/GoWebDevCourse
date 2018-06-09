@@ -38,6 +38,10 @@ func main() {
 
 func i(w http.ResponseWriter, r *http.Request) {
 	name := "Matt"
+	http.SetCookie(w, &http.Cookie{
+		Name:  "matt-cookie",
+		Value: "yo, cookie set!",
+	})
 	err := tpl.ExecuteTemplate(w, "index_i.gohtml", name)
 	errorHandler(err)
 }
@@ -52,6 +56,9 @@ func v(w http.ResponseWriter, r *http.Request) {
 		<input type="submit">
 		</form><br>
 		`+value)
+	c, err := r.Cookie("matt-cookie")
+	errorHandler(err)
+	fmt.Printf("Cookie: %v", c)
 }
 
 func p(w http.ResponseWriter, r *http.Request) {
