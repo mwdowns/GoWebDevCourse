@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 )
 
-// var tpl *template.Template
+var tpl *template.Template
 
 // type person struct {
 // 	FirstName string
@@ -15,9 +15,9 @@ import (
 // 	Subscribe bool
 // }
 
-// func init() {
-// 	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
-// }
+func init() {
+	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+}
 
 func errorHandler(err error) {
 	if err != nil {
@@ -49,7 +49,7 @@ func main() {
 // 	l := r.FormValue("last")
 // 	s := r.FormValue("subscribe") == "on"
 
-// 	err := tpl.ExecuteTemplate(w, "index.gohtml", person{f, l, s})
+// 	err := tpl.ExecuteTemplate(w, "index_p.gohtml", person{f, l, s})
 // 	errorHandler(err)
 // }
 
@@ -68,11 +68,7 @@ func rf(w http.ResponseWriter, r *http.Request) {
 
 		s = string(bs)
 	}
-	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	io.WriteString(w, `
-		<form method="POST" enctype="multipart/form-data">
-		<input type="file" name="file">
-		<input type="submit">
-		</form>
-		<br>`+s)
+
+	err := tpl.ExecuteTemplate(w, "index_rf.gohtml", s)
+	errorHandler(err)
 }
