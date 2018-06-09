@@ -88,19 +88,14 @@ func rf(w http.ResponseWriter, r *http.Request) {
 
 func checkCookie(w http.ResponseWriter, r *http.Request) {
 	c, err := r.Cookie("matt-cookie")
-	if err != nil {
+	if err == http.ErrNoCookie {
 		http.SetCookie(w, &http.Cookie{
 			Name:  "matt-cookie",
 			Value: "0",
 		})
-		fmt.Println("yo")
 		return
 	}
-	oldVal, err := strconv.Atoi(c.Value)
-	newVal := oldVal + 1
-	fmt.Printf("NewVal: %v\n", newVal)
-	http.SetCookie(w, &http.Cookie{
-		Name:  "matt-cookie",
-		Value: strconv.Itoa(newVal),
-	})
+	oldVal, _ := strconv.Atoi(c.Value)
+	c.Value = strconv.Itoa(oldVal + 1)
+	http.SetCookie(w, c)
 }
