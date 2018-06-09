@@ -21,13 +21,6 @@ func init() {
 	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
 }
 
-func errorHandler(err error) {
-	if err != nil {
-		fmt.Println("Error: ", err)
-		return
-	}
-}
-
 func main() {
 	http.HandleFunc("/", i)
 	http.HandleFunc("/v", v)
@@ -95,7 +88,15 @@ func checkCookie(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	oldVal, _ := strconv.Atoi(c.Value)
+	oldVal, err := strconv.Atoi(c.Value)
+	errorHandler(err)
 	c.Value = strconv.Itoa(oldVal + 1)
 	http.SetCookie(w, c)
+}
+
+func errorHandler(err error) {
+	if err != nil {
+		fmt.Println("Error: ", err)
+		return
+	}
 }
